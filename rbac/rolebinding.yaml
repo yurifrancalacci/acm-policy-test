@@ -4,7 +4,10 @@ metadata:
   name: rolebinding-pol
 spec:  
   object-templates-raw: |
-    {{ $tenants := list }}
+    {{ $tenants := list 
+    "aa"
+    "bb"
+    }}
     {{ range $tenant := $tenants }}
     {{ $labelSelector := printf "tenant=%s" $tenant }}
     {{ range $ns := (lookup "v1" "Namespace" "" "" $labelSelector).items }}
