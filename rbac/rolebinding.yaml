@@ -54,7 +54,6 @@ spec:
           name: admin
     {{ end }}
     {{ end }}
-    {{ end }}
   pruneObjectBehavior: DeleteIfCreated
   remediationAction: inform
   severity: medium
