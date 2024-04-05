@@ -4,56 +4,21 @@ metadata:
   name: rolebinding-pol
 spec:  
   object-templates-raw: |
-    {{ $labelSelector := printf "tenant" }}
-    {{ range $ns := (lookup "v1" "Namespace" "" "" $labelSelector).items }}
     - complianceType: mustonlyhave
       objectDefinition:
         kind: RoleBinding
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
-          name: {{ $ns.metadata.labels.appName }}-avanzato-view
-          namespace: {{ $ns.metadata.name }}
+          name: avanzato-view
+          namespace: default
         subjects:
           - kind: Group
             apiGroup: rbac.authorization.k8s.io
-            name: cluster-ocp-{{ fromClusterClaim "name" }}-sviluppatore-{{ $ns.metadata.labels.appName }}-avanzato
+            name: cluster-ocp-{{ fromClusterClaim "name" }}-sviluppatore-avanzato
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole
           name: view
-    {{ if eq (fromClusterClaim "environment") "dev" }}
-    - complianceType: mustonlyhave
-      objectDefinition:
-        kind: RoleBinding
-        apiVersion: rbac.authorization.k8s.io/v1
-        metadata:
-          name:{{ $ns.metadata.labels.appName }}-avanzato-admin
-          namespace: {{ $ns.metadata.name }}
-        subjects:
-          - kind: Group
-            apiGroup: rbac.authorization.k8s.io
-            name: cluster-ocp-{{ fromClusterClaim "name" }}-sviluppatore-{{ $ns.metadata.labels.appName }}-avanzato
-        roleRef:
-          apiGroup: rbac.authorization.k8s.io
-          kind: ClusterRole
-          name: admin
-    - complianceType: mustonlyhave
-      objectDefinition:
-        kind: RoleBinding
-        apiVersion: rbac.authorization.k8s.io/v1
-        metadata:
-          name: {{ $ns.metadata.labels.appName }}-base-admin
-          namespace: {{ $ns.metadata.name }}
-        subjects:
-          - kind: Group
-            apiGroup: rbac.authorization.k8s.io
-            name: cluster-ocp-{{ fromClusterClaim "name" }}-sviluppatore-{{ $ns.metadata.labels.appName }}-base
-        roleRef:
-          apiGroup: rbac.authorization.k8s.io
-          kind: ClusterRole
-          name: admin
-    {{ end }}
-    {{ end }}
   pruneObjectBehavior: DeleteIfCreated
   remediationAction: inform
   severity: medium
