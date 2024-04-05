@@ -4,16 +4,14 @@ metadata:
   name: rolebinding-pol
 spec:  
   object-templates-raw: |
-    {{ $tenants := list "" }}
-    {{ range $tenant := $tenants }}
-    {{ $labelSelector := printf "tenant=%s" $tenant }}
+    {{ $labelSelector := printf "tenant" }}
     {{ range $ns := (lookup "v1" "Namespace" "" "" $labelSelector).items }}
     - complianceType: mustonlyhave
       objectDefinition:
         kind: RoleBinding
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
-          name: {{ $tenant }}-{{ $ns.metadata.labels.appName }}-avanzato-view
+          name: {{ $ns.metadata.labels.appName }}-avanzato-view
           namespace: {{ $ns.metadata.name }}
         subjects:
           - kind: Group
@@ -29,7 +27,7 @@ spec:
         kind: RoleBinding
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
-          name: {{ $tenant }}-{{ $ns.metadata.labels.appName }}-avanzato-admin
+          name:{{ $ns.metadata.labels.appName }}-avanzato-admin
           namespace: {{ $ns.metadata.name }}
         subjects:
           - kind: Group
@@ -44,7 +42,7 @@ spec:
         kind: RoleBinding
         apiVersion: rbac.authorization.k8s.io/v1
         metadata:
-          name: {{ $tenant }}-{{ $ns.metadata.labels.appName }}-base-admin
+          name: {{ $ns.metadata.labels.appName }}-base-admin
           namespace: {{ $ns.metadata.name }}
         subjects:
           - kind: Group
