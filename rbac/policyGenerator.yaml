@@ -1,0 +1,24 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: rbac-policygen
+policyDefaults:
+  namespace: default
+  complianceType: mustonlyhave
+  remediationAction: enforce
+  severity: medium
+  placement:
+    labelSelector:
+      matchExpressions:
+        - key: vendor
+          operator: In
+          values:
+            - "OpenShift"
+        # - key: name
+        #   operator: NotIn
+        #   values:
+        #     - "local-cluster"
+policies:
+  - name: rbac-gen-policy
+    manifests:
+      - path: rolebinding.yaml
