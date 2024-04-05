@@ -14,7 +14,7 @@ spec:
         subjects:
           - kind: Group
             apiGroup: rbac.authorization.k8s.io
-            name: cluster-ocp-{{ fromClusterClaim "name" }}-sviluppatore-avanzato
+            name: adminz
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole
