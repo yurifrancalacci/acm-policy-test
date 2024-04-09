@@ -1,4 +1,4 @@
-#generators:
-#- policyGenerator.yaml
-resources:
-- all-in-one.yaml
+generators:
+- policyGenerator.yaml
+# resources:
+# - all-in-one.yaml
